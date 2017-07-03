@@ -30,23 +30,16 @@ def softmax(x):
 
     if len(x.shape) > 1:
         # Matrix
-        ### YOUR CODE HERE
-        ones = np.ones((x.shape[0], 1))
         x = (x.T - x.max(1)).T  # np.max(x, axis=1)
-        ### END YOUR CODE
+        exp_x = np.exp(x)
+        exp_sum = np.sum(exp_x, 1)
     else:
         # Vector
-        ### YOUR CODE HERE
-        ones = np.ones(x.shape[0])
         x = x - x.max()
-        ### END YOUR CODE
+        exp_x = np.exp(x)
+        exp_sum = np.sum(exp_x)
 
-    exp_x = np.exp(x)
-    exp_sum = np.dot(exp_x, ones)
-    exp_sum_recip = 1 / exp_sum
-    if len(x.shape) > 1:
-        exp_sum_recip = np.diag(exp_sum_recip.flatten())
-    softmax_result = np.dot(exp_x, exp_sum_recip)
+    softmax_result = np.true_divide(exp_x, exp_sum)
 
     assert softmax_result.shape == orig_shape
     return softmax_result
