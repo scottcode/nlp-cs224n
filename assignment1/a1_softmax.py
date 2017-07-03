@@ -27,19 +27,21 @@ def softmax(x):
     x -- You are allowed to modify x in-place
     """
     orig_shape = x.shape
-    exp_x = np.exp(x)
 
     if len(x.shape) > 1:
         # Matrix
         ### YOUR CODE HERE
         ones = np.ones((x.shape[0], 1))
+        x = (x.T - x.max(1)).T  # np.max(x, axis=1)
         ### END YOUR CODE
     else:
         # Vector
         ### YOUR CODE HERE
         ones = np.ones(x.shape[0])
+        x = x - x.max()
         ### END YOUR CODE
 
+    exp_x = np.exp(x)
     exp_sum = np.dot(exp_x, ones)
     exp_sum_recip = 1 / exp_sum
     if len(x.shape) > 1:
